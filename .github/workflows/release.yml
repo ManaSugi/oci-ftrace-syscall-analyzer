@@ -12,7 +12,7 @@ jobs:
     name: Build Release
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Prepare for libseccomp
       run: sudo apt-get install libseccomp-dev
@@ -21,7 +21,7 @@ jobs:
       run: cargo build --release --verbose
 
     - name: Run Tests
-      run: sudo /usr/share/rust/.cargo/bin/cargo test --verbose
+      run: CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER='sudo -E' cargo test --verbose
 
     - run: mkdir artifact
     - run: tar -czf  artifact/oci-ftrace-syscall-analyzer-amd64.tar.gz -C target/release/ oci-ftrace-syscall-analyzer
